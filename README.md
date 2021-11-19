@@ -6,7 +6,7 @@ make <br  >
 
 Tests: <br >
 After compiling and linking the library together <br >
-./defrag "-h" will print a man page
+./defrag "-h" will print a man page <br >
 ./defrag [fragmented disk] will unfragment the disk
 
 <h2>Introduction</h2>
