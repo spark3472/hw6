@@ -106,13 +106,14 @@ int main(int argc, char *argv[]){
   int boolean = 1;
   void* to_swap = buffer + 1024 + block_size * super_block->swap_offset;
   void* data_to_add = to_swap - 1;
-  if (to_swap >= buffer+file_size || to_swap < buffer+1024){
+  if (to_swap < buffer+block_size*2 || to_swap >= buffer+file_size)
+  {
     boolean = 0;
     data_to_add = buffer + file_size - 1;
   }
 
-  void* data_block = buffer + 1024 + block_size * super_block->data_offset + block_size * block_count;
-  int numFreeBlocks = (data_to_add - (buffer+1024+block_size*(super_block->data_offset + block_count - 1) + 1)) / 512;
+  void* data_block = buffer + block_size*2 + block_size * super_block->data_offset + block_size * block_count;
+  int numFreeBlocks = (data_to_add - (buffer+block_size*2+block_size*(super_block->data_offset + block_count - 1) + 1)) /block_size;
   for (int i = 0; i < numFreeBlocks-1; i++){
     *(int*)data_block = block_count;
     fwrite(data_block, 1, block_size, defragged);
